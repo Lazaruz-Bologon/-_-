@@ -1,0 +1,23 @@
+U_1 = [-46.3, -69.7, -93.1, -116.6, -139.9, -163.4, -187.1];
+U_2 = [46.1, 69.1, 92.1, 114.9, 137.5, 159.6, 181.3];
+U_3 = [-47.6, -71.5, -95.6, -119.8, -143.7, -168.8, -194.4];
+U_4 = [47.3, 70.7, 94.2, 117.4, 140.4, 163.2, 186.4];
+I_H = [2, 3, 4, 5, 6, 7, 8];
+U_H = 0.25 * (U_1 - U_2 + U_3 - U_4);
+coefficients = polyfit(I_H, U_H, 1);
+slope = coefficients(1);
+intercept = coefficients(2); 
+correlation_coefficient = corrcoef(I_H, U_H);
+figure;
+plot(I_H, U_H, 'o-', 'LineWidth', 2);
+title('U_H 关于 I_H 变化的图像');
+xlabel('电流 I_H (单位: mA)');
+ylabel('电压 U_H (单位: mV)');
+grid on;
+hl = line([min(I_H) max(I_H)], [0 0], 'Color', 'black', 'LineWidth', 0.5);
+vl = line([2 2], [min(U_H) max(U_H)], 'Color', 'black', 'LineWidth', 0.5);
+legend('U_H vs I_H', 'Location', 'northwest');
+text(max(I_H)-2, max(U_H), ['斜率: ' num2str(slope)], 'HorizontalAlignment', 'left');
+text(max(I_H)-2, max(U_H) - 10, ['截距: ' num2str(intercept)], 'HorizontalAlignment', 'left');
+text(max(I_H)-2, max(U_H) - 20, ['相关系数: ' num2str(correlation_coefficient(1, 2))], 'HorizontalAlignment', 'left');
+U_H
